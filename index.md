@@ -22,7 +22,7 @@ I propose to test an alternative hypothesis stating that when humans are asked t
 
 ### Data
 
-Data used in this project was originally collected for a study by Uibopuu and Aru with colleagues (2021). They asked participants to write down 10 words in Estonian that are semantically as far apart from each other as possible. Hele-Andra Kuulmets exported these data in a tabular format and developed a basic distance metric.
+Data used in this project was originally collected for a study by Uibopuu and Aru with colleagues (2021). They asked participants to write down 10 words in Estonian that are semantically as far apart from each other as possible. A similar study was done by Olson and colleagues (2020) where they successfully showed that it is a great measure of human creativity. Hele-Andra Kuulmets exported these data in a tabular format and developed a basic distance metric.
 
 After removing pilot participants, there were a total of 139 unique users participating in a total of 728 sessions. They used a total of 7085 words in complete sessions (where none of the 10 words was unknown), and 2216 of them were unique.
 
@@ -41,9 +41,9 @@ I then compare metrics like an average Euclidean distance and cosine similarity 
 
 ## Results
 
-Welch t-test comparing the Euclidean distance between human pairs and random pairs conditions was performed ($n=6180, t=-1.9970, p=0.0467$). With the significance level $\alpha=0.05$, we can reject the null hypothesis and claim there is a statistically significant difference between Euclidean distances of human word pairs and random word pairs. As the Welch t-test was performed two-tailed despite the directional expectation, confidence in the alternative hypothesis is even stronger.
+Welch t-test comparing the Euclidean distance between human pairs and random pairs conditions was performed (_n_=6180, _t_=-1.9970, _p_=0.0467). With the significance level _α_=0.05, we can reject the null hypothesis and claim there is a statistically significant difference between Euclidean distances of human word pairs and random word pairs. As the Welch t-test was performed two-tailed despite the directional expectation, confidence in the alternative hypothesis is even stronger.
 
-The same two-tailed Welch t-test comparing the two human pairs and random pairs conditions was performed using cosine similarity ($n=6180, t=2.2188, p=0.0265$). With the significance level $\alpha=0.05$, we can reject the null hypothesis once again. Therefore, we can proceed with the alternative hypothesis that there is a statistically significant difference in cosine similarity between human word pairs and random word pairs. As the t-value is positive, the human pairs has a higher average cosine similarity.
+The same two-tailed Welch t-test comparing the two human pairs and random pairs conditions was performed using cosine similarity (_n_=6180, _t_=2.2188, _p_=0.0265). With the significance level _α_=0.05, we can reject the null hypothesis once again. Therefore, we can proceed with the alternative hypothesis that there is a statistically significant difference in cosine similarity between human word pairs and random word pairs. As the t-value is positive, the human pairs has a higher average cosine similarity.
 
 ## Discussion
 
@@ -53,15 +53,21 @@ The analysis allowed us to confirm the stated alternative hypotheses that human 
 
 Humans consider human word pairs distant as the task was to create semantically distant word sequences and therefore the criterion for including a word must have been a sense of distance. For some reason, that subjective distance does not translate to a distance measured with Euclidean distance or cosine similarity on word embeddings. This discrepancy can arise from using wrong distance metrics, or that the word embeddings model semantic space in a fundamentally different way compared to humans.
 
-The semantic space was represented using word embeddings rather than a semantic graph (e.g. WordNet). It is possible that measuring distance in that embedding space is too unbiased - one can jump directly from any thought to another. Humans on the other hand seem to move from one thought to another by association which could be better modelled using geodesic distance on a graph. Semantic graph would keep words with similar meaning close together. Rarer words would be associated with fewer contexts and therefore with fewer words, leading to a more biased (restricted) model of a semantic space. This should be detectable also using shortest path as distance.
+The semantic space was represented using word embeddings rather than a semantic graph (e.g. WordNet). It is possible that measuring distance in that embedding space is too unbiased - one can go from word A to word B directly in embedding space. Humans on the other hand seem to move from one thought to another by association which could be better modelled using geodesic distance on a graph. Semantic graph would keep words with similar meaning close together. Rarer words would be associated with fewer contexts and therefore with fewer words, leading to a more biased (restricted) model of a semantic space. This should be detectable also using shortest path as distance.
 
 Another approach to capture human semantic distance would be to use other distance metrics or come up with new ones to be used with word embeddings. For example, instead of measuring direct Euclidean distance from a word A to a word B, measure it through a third point C. That third point C could be a point where a normalized word vector would be 0 in all features, representing the most neutral point in vector space. That third point could instead be a word most central in the normalized word vector space, representing a most probable semantic hub - a possible estimation of a semantic graph center.
+
+### Too Many Dimensions?
+
+The number of basic dimensions humans use for thinking could be less than the 100 used for word embeddings. Further dimensions could make the representation more precise digitally for further machine learning, but also more distant from how meaning is represented in the brain. An indication in that direction is a study by Hebart and colleagues (2020) who showed with image similarity judgements that they can construct 49 highly replicable and meaningful object dimensions that correspond to both conceptual and percpetual properties of these objects. Some of their dimensions could be described as "animal, mammals", "colorful", "rojalty", "circular, round", "patterns, piles", "fire, heat".
+
+Also, researchers construct word embeddings from a large corpus of texts of which many could contain topics mainly unknown to individual participants. This could make word distances smaller for the "all knowing" language model. An interesting direction for further investigation could be to train different word embeddings with some topics removed or some topics covered only superficially to mimic the ignorance of participants.
 
 ### Word Sequences
 
 Even though I consider it fair to assume that any two consecutive words in a sequence of distant words are also distant, it could be that the assumption might be false for some sessions and strategies. For example, if a participant aimed to come up with widely differing 7 first words and then fill the remaining 3 with whatever comes to mind. This would lead to the last 2-3 pairs to probably being closer to one another than the rest of the words.
 
-One way to tackle this problem for good would be to change the original task to ask for 4-5 distant words rather than 10. This would be more in line with the human working memory capacity depending on the task measured to be either $7\pm2$ (Miller, 1956), or $4\pm1$ (Cowan, 2010). In our case, the word sequences as a whole could be more valid if participants had the capacity to compare potential new words to be added to the sequence with all the other words they have said before.
+One way to tackle this problem for good would be to change the original task to ask for 4-5 distant words rather than 10. This would be more in line with the human working memory capacity depending on the task measured to be either 7±2 (Miller, 1956), or 4±1 (Cowan, 2010). In our case, the word sequences as a whole could be more valid if participants had the capacity to compare potential new words to be added to the sequence with all the other words they have said before.
 
 ## Conclusion
 
@@ -72,3 +78,19 @@ What is distant for humans is not distant in word embeddings. That is, when huma
 Data was collected by Oliver Uibopuu, basic transformation into a table by Hele-Andra Kuulmets. My contribution was literature overview, data preprocessing, analysis, and writing up the blog.
 
 I thank my supervisor Jaan Aru.
+
+## References
+
+Cowan, N. (2010). The Magical Mystery Four: How Is Working Memory Capacity Limited, and Why? Current Directions in Psychological Science, 19(1), 51–57. https://doi.org/10.1177/0963721409359277
+
+Figurska, M., Stańczyk, M., & Kulesza, K. (2008). Humans cannot consciously generate random numbers sequences: Polemic study. Medical Hypotheses, 70(1), 182–185. https://doi.org/10.1016/j.mehy.2007.06.038
+
+Furnham, A., & Boo, H. C. (2011). A literature review of the anchoring effect. The Journal of Socio-Economics, 40(1), 35–42. https://doi.org/10.1016/j.socec.2010.10.008
+
+Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and Harnessing Adversarial Examples. ArXiv:1412.6572 [Cs, Stat]. http://arxiv.org/abs/1412.6572
+
+Hebart, M. N. (2020). Revealing the multidimensional mental representations of natural objects underlying human similarity judgements. Nature Human Behaviour, 4, 20.
+
+Jo, J., & Bengio, Y. (2017). Measuring the tendency of CNNs to Learn Surface Statistical Regularities. ArXiv:1711.11561 [Cs, Stat]. http://arxiv.org/abs/1711.11561
+
+Olson, J. A., Nahas, J., Chmoulevitch, D., & Webb, M. E. (2020). Naming unrelated words reliably predicts creativity. 21. https://doi.org/10.31234/osf.io/qvg8b
